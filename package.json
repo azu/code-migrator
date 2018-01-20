@@ -1,6 +1,6 @@
 {
   "name": "code-migrator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create code migration tool for your tool/library/framework.",
   "keywords": [
     "code",
