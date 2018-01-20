@@ -143,3 +143,9 @@ For bugs and feature requests, [please create an issue](https://github.com/azu/c
 ## License
 
 MIT © azu
+
+## Acknowledge
+
+This library is based on `ava-codemods`.
+
+- [avajs/ava-codemods: Codemods for AVA](https://github.com/avajs/ava-codemods "avajs/ava-codemods: Codemods for AVA")
