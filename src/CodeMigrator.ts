@@ -50,7 +50,7 @@ export class CodeMigrator {
     /**
      * Run with interactive mode
      */
-    runInteractive(options: CodeMigratorRunOption) {
+    run(options: CodeMigratorRunOption) {
         const { ok, errorMessage } = checkGitStatus(options.force);
         if (ok && errorMessage) {
             console.warn(errorMessage);
@@ -126,7 +126,7 @@ export class CodeMigrator {
     /**
      * Run with specified `scripts`.
      */
-    runWithScript(scripts: MigrationScript[], filePatterns: string[]) {
+    runScripts(scripts: MigrationScript[], filePatterns: string[]) {
         if (!filePatterns.length) {
             return Promise.reject(new Error("No input glob patterns."));
         }

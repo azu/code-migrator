@@ -105,7 +105,7 @@ const migrator = new CodeMigrator({
     }
 });
 migrator
-    .runInteractive({
+    .run({
         filePatterns: cli.input
     })
     .then(() => {

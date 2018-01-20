@@ -15,8 +15,6 @@ describe("cli", () => {
                 };
             }
         });
-        return codeMigrator.runWithScript(migrationList.scripts, [
-            path.join(__dirname, "/fixtures/scripts/src/**/*.js")
-        ]);
+        return codeMigrator.runScripts(migrationList.scripts, [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]);
     });
 });
