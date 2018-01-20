@@ -29,6 +29,11 @@ Install with [npm](https://www.npmjs.com/):
 
     npm install code-migrator
 
+## Requirements
+
+- Your library/framework/tool should follow [Semantic Versioning](https://semver.org/ "Semantic Versioning")
+- You have to prepare migration scripts
+
 ## Usage
 
 ### Define `MigrationList`
