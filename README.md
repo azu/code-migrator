@@ -118,6 +118,12 @@ migrator
 
 For more details, see [examples/](./examples/)
 
+## User
+
+Following migration tools use `code-migrator`.
+
+- [almin/migration-tools: Migration scripts for Almin.](https://github.com/almin/migration-tools "almin/migration-tools: Migration scripts for Almin.")
+
 ## Changelog
 
 See [Releases page](https://github.com/azu/code-migrator/releases).
