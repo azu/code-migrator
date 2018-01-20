@@ -11,7 +11,7 @@
   "author": "azu",
   "license": "MIT",
   "dependencies": {
-    "code-migration-framework": "file:../..",
+    "code-migrator": "file:../..",
     "jscodeshift": "^0.4.0",
     "meow": "^4.0.0"
   }

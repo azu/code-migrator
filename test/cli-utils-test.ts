@@ -7,7 +7,7 @@ describe("cli-util", () => {
     describe("getPackageVersion", () => {
         it("should get version from devDependencies", () => {
             const version = getPackageVersion("debug", {
-                name: "code-migration-framework",
+                name: "code-migrator",
                 version: "1.0.0",
                 dependencies: {
                     debug: "^3.1.0",
@@ -18,7 +18,7 @@ describe("cli-util", () => {
         });
         it("should get version from dependencies", () => {
             const version = getPackageVersion("lodash", {
-                name: "code-migration-framework",
+                name: "code-migrator",
                 version: "1.0.0",
                 dependencies: {},
                 devDependencies: {
@@ -29,7 +29,7 @@ describe("cli-util", () => {
         });
         it("should return undefined if it is not found", () => {
             const version = getPackageVersion("not_found", {
-                name: "code-migration-framework",
+                name: "code-migrator",
                 version: "1.0.0",
                 dependencies: {},
                 devDependencies: {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 "use strict";
-const { CodeMigrator } = require("code-migration-framework");
+const { CodeMigrator } = require("code-migrator");
 const meow = require("meow");
 
 const cli = meow(

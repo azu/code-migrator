@@ -1,5 +1,5 @@
 {
-  "name": "code-migration-framework",
+  "name": "code-migrator",
   "version": "1.0.0",
   "description": "This framework help to create code migration tool.",
   "keywords": [
@@ -10,9 +10,9 @@
     "migration",
     "refactoring"
   ],
-  "homepage": "https://github.com/azu/code-migration-framework",
+  "homepage": "https://github.com/azu/code-migrator",
   "bugs": {
-    "url": "https://github.com/azu/code-migration-framework/issues"
+    "url": "https://github.com/azu/code-migrator/issues"
   },
   "license": "MIT",
   "author": "azu",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/azu/code-migration-framework.git"
+    "url": "https://github.com/azu/code-migrator.git"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production tsc -p .",

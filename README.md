@@ -1,13 +1,13 @@
-# code-migration-framework
+# code-migrator
 
-This framework help to create code migration tool.
+This library help to create code migration tool.
 
 ![gif](https://media.giphy.com/media/xULW8xOTTWYMgRVhhm/giphy.gif)
 
-If you have own library/framework/tool, this framework help to create migration tool for your library/framework/tool.
+If you have own library/framework/tool, this library help to create migration tool for your library/framework/tool.
 
-- This framework aim to provide command line interface for running migration scripts by codemod.
-- This framework does not provide migration scripts
+- This library aim to provide command line interface for running migration scripts by codemod.
+- This library does not provide migration scripts
     - You have to write migration script
 
 ## codemod tools
@@ -18,13 +18,13 @@ You have to write migration scripts using following codemod tools.
 - [square/babel-codemod: babel-codemod rewrites JavaScript using babel plugins.](https://github.com/square/babel-codemod)
 - [KnisterPeter/tscodeshift: tscodeshift is a toolkit for running codemods over multiple TS files](https://github.com/KnisterPeter/tscodeshift)
 
-`code-migration-framework` is a launcher library for the above tools.
+`code-migrator` is a launcher library for the above tools.
 
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
 
-    npm install code-migration-framework
+    npm install code-migrator
 
 ## Usage
 
@@ -61,7 +61,7 @@ module.exports = {
 Example:
 
 ```js
-const { CodeMigrator } = require("code-migration-framework");
+const { CodeMigrator } = require("code-migrator");
 const meow = require("meow");
 
 const cli = meow(
@@ -112,7 +112,7 @@ For more details, see [examples/](./examples/)
 
 ## Changelog
 
-See [Releases page](https://github.com/azu/code-migration-framework/releases).
+See [Releases page](https://github.com/azu/code-migrator/releases).
 
 ## Running tests
 
@@ -124,7 +124,7 @@ Install devDependencies and Run `npm test`:
 
 Pull requests and stars are always welcome.
 
-For bugs and feature requests, [please create an issue](https://github.com/azu/code-migration-framework/issues).
+For bugs and feature requests, [please create an issue](https://github.com/azu/code-migrator/issues).
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
