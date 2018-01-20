@@ -1,14 +1,17 @@
-# code-migrator
+# code-migrator [![Build Status](https://travis-ci.org/azu/code-migrator.svg?branch=master)](https://travis-ci.org/azu/code-migrator)
 
 This library help to create code migration tool.
 
 ![gif](https://media.giphy.com/media/xULW8xOTTWYMgRVhhm/giphy.gif)
 
-If you have own library/framework/tool, this library help to create migration tool for your library/framework/tool.
+This library help to create migration tool for your library/framework/tool.
 
-- This library aim to provide command line interface for running migration scripts by codemod.
+- This library aim to provide command line interface for migration
+- This library help to run migration scripts
 - This library does not provide migration scripts
     - You have to write migration script
+    - You choose codemod tool by own
+    - Your migration script must not depended on this library
 
 ## codemod tools
 
