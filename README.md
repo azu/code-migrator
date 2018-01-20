@@ -2,6 +2,8 @@
 
 This framework help to create code migration tool.
 
+![gif](https://media.giphy.com/media/xULW8xOTTWYMgRVhhm/giphy.gif)
+
 If you have own library/framework/tool, this framework help to create migration tool for your library/framework/tool.
 
 - This framework aim to provide command line interface for running migration scripts by codemod.
