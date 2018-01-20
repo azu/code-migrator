@@ -29,13 +29,13 @@ export const getPackageVersion = (packageName: string, pkg: any = readPkg.sync()
     return undefined;
 };
 
-export const sortByVersion = function sortByVersion(versions: MigrationVersion[]) {
+export const sortByVersion = (versions: MigrationVersion[]) => {
     const copiedVersion = versions.slice();
     copiedVersion.sort(predicateVersion);
     return copiedVersion;
 };
 
-export const predicateVersion = function sortByVersion(a: MigrationVersion, b: MigrationVersion) {
+export const predicateVersion = (a: MigrationVersion, b: MigrationVersion) => {
     if (a.version === b.version) {
         return 0;
     }
@@ -48,8 +48,8 @@ export const findScript = (scripts: MigrationScript[], scriptName: MigrationScri
 };
 
 // create for inquirer
-export const createPromptVersionParameters = function getVersions(versions: MigrationVersion[]) {
-    const versionsFromCodemods = versions.sort(exports.sortByVersion).map(version => {
+export const createPromptVersionParameters = function getVersions(sortedVersions: MigrationVersion[]) {
+    const versionsFromCodemods = sortedVersions.map(version => {
         return {
             name: version.version,
             value: version.version
@@ -57,7 +57,7 @@ export const createPromptVersionParameters = function getVersions(versions: Migr
     });
     const uniqueVersions = uniq(versionsFromCodemods);
     const firstVersion = {
-        name: `older than ${uniqueVersions.sort(exports.sortByVersion)[0]}`,
+        name: `older than ${uniqueVersions[0].name}`,
         value: "0.0.0"
     };
     const lastVersion = {

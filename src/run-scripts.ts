@@ -7,7 +7,7 @@ export type BinCreator = (
     args: { script: MigrationScript; filePathList: string[] }
 ) => {
     binPath: string;
-    binOptions?: string[];
+    binArgs?: string[];
 };
 
 export interface runWithBinOptions {
@@ -30,8 +30,8 @@ export const executeWithBin = (args: runWithBinOptions): Promise<void> => {
                 filePathList
             });
             const binPath = binResult.binPath;
-            const binOptions = binResult.binOptions || [];
-            const args = binOptions.concat(["-t", script.filePath]).concat(filePathList);
+            const binArgs = binResult.binArgs || [];
+            const args = binArgs.concat(["-t", script.filePath]).concat(filePathList);
             debug(`${binPath} %o`, args);
             return execa(binPath, args, {
                 stdio: "inherit",

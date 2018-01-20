@@ -3,26 +3,41 @@
 const { CodeMigrator } = require("code-migration-framework");
 const meow = require("meow");
 
-const cli = meow(`
-	Usage
-	  $ code-migration-example <input>
+const cli = meow(
+    `
+    Usage
+      $ code-migration-example <input>
 
-	Examples
-	  $ code-migration-example "src/**/*.js"
-`);
+    Options:
+      --dry-run Enable dry run mode
 
+    Examples
+      $ code-migration-example "src/**/*.js"
+`,
+    {
+        flags: {
+            dryRun: {
+                type: "boolean"
+            }
+        }
+    }
+);
+
+console.log("cli.dryRun", cli.flags.dryRun);
 const migrator = new CodeMigrator({
-    moduleName: "almin",
+    moduleName: "test-module",
     migrationList: require("../migrations"),
     binCreator: () => {
+        const binArgs = cli.flags.dryRun ? ["--dry"] : [];
         return {
-            binPath: require.resolve(".bin/jscodeshift")
+            binPath: require.resolve(".bin/jscodeshift"),
+            binArgs
         };
     }
 });
 migrator
     .runInteractive({
-        filePatterns: cli.input[0]
+        filePatterns: cli.input
     })
     .then(() => {
         console.log("Done");

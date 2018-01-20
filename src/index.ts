@@ -1,2 +1,2 @@
-export { CodeMigrator, CodeMigratorArgs, CodeMigratorRunOption } from "./cli";
+export { CodeMigrator, CodeMigratorArgs, CodeMigratorRunOption } from "./CodeMigrator";
 export { MigrationVersion, MigrationList, MigrationScript } from "./MigrationList";

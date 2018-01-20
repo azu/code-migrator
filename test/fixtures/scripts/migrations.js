@@ -4,7 +4,7 @@ module.exports = {
     scripts: [
         {
             name: "use-strict",
-            filePath: require.resolve("./scripts/use-strict")
+            filePath: require.resolve("./use-strict")
         }
     ],
     versions: [
