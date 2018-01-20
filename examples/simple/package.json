@@ -1,0 +1,17 @@
+{
+  "name": "simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "azu",
+  "license": "MIT",
+  "dependencies": {
+    "code-migration-framework": "file:../..",
+    "jscodeshift": "^0.4.0",
+    "meow": "^4.0.0"
+  }
+}
