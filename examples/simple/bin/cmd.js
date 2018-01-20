@@ -23,7 +23,6 @@ const cli = meow(
     }
 );
 
-console.log("cli.dryRun", cli.flags.dryRun);
 const migrator = new CodeMigrator({
     moduleName: "test-module",
     migrationList: require("../migrations"),

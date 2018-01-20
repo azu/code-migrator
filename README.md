@@ -2,6 +2,22 @@
 
 This framework help to create code migration tool.
 
+If you have own library/framework/tool, this framework help to create migration tool for your library/framework/tool.
+
+- This framework aim to provide command line interface for running migration scripts by codemod.
+- This framework does not provide migration scripts
+    - You have to write migration script
+
+## codemod tools
+
+You have to write migration scripts using following codemod tools.
+
+- [facebook/jscodeshift: A JavaScript codemod toolkit.](https://github.com/facebook/jscodeshift)
+- [square/babel-codemod: babel-codemod rewrites JavaScript using babel plugins.](https://github.com/square/babel-codemod)
+- [KnisterPeter/tscodeshift: tscodeshift is a toolkit for running codemods over multiple TS files](https://github.com/KnisterPeter/tscodeshift)
+
+`code-migration-framework` is a launcher library for the above tools.
+
 ## Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -10,7 +26,87 @@ Install with [npm](https://www.npmjs.com/):
 
 ## Usage
 
-- [ ] Write usage instructions
+### Define `MigrationList`
+
+```js
+module.exports = {
+    scripts: [
+        {
+            name: "use-strict",
+            // absolute path for codemod scripts
+            filePath: require.resolve("./scripts/use-strict")
+        }
+    ],
+    versions: [
+        // 0.x.x -> 1.0.0 apply "use-strict"
+        {
+            version: "1.0.0",
+            scripts: ["use-strict"]
+        },
+        // 1.0.0 -> 2.0.0 does not apply anything
+        {
+            version: "2.0.0",
+            scripts: []
+        },
+        {
+            version: "3.0.0",
+            scripts: []
+        }
+    ]
+};
+```
+
+Example:
+
+```js
+const { CodeMigrator } = require("code-migration-framework");
+const meow = require("meow");
+
+const cli = meow(
+    `
+    Usage
+      $ code-migration-example <input>
+
+    Options:
+      --dry-run Enable dry run mode
+
+    Examples
+      $ code-migration-example "src/**/*.js"
+`,
+    {
+        flags: {
+            dryRun: {
+                type: "boolean"
+            }
+        }
+    }
+);
+
+const migrator = new CodeMigrator({
+    moduleName: "test-module", // <= target npm module name if needed
+    migrationList: require("../migrations"), // load migration list
+    binCreator: () => {
+        // migration script is executed by jscodeshift
+        const binArgs = cli.flags.dryRun ? ["--dry"] : [];
+        return {
+            binPath: require.resolve(".bin/jscodeshift"),
+            binArgs
+        };
+    }
+});
+migrator
+    .runInteractive({
+        filePatterns: cli.input
+    })
+    .then(() => {
+        console.log("Done");
+    })
+    .catch(error => {
+        console.error(error);
+    });
+```
+
+For more details, see [examples/](./examples/)
 
 ## Changelog
 
