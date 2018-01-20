@@ -91,7 +91,7 @@ export const selectScripts = function selectScripts({ migrationList, currentVers
     return uniqby(versions, "name");
 };
 
-export const checkGitStatus = function checkGitStatus(force: boolean): { errorMessage?: string; ok: boolean } {
+export const checkGitStatus = function checkGitStatus(force?: boolean): { errorMessage?: string; ok: boolean } {
     let clean = false;
     let errorMessage = "Unable to determine if git directory is clean";
     try {
