@@ -3,7 +3,8 @@ import {
     getPackageVersion,
     createPromptVersionParameters,
     selectScripts,
-    sortByVersion
+    sortByVersion,
+    getScriptByName
 } from "./cli-utils";
 import { MigrationList, MigrationScript } from "./MigrationList";
 import * as inquirer from "inquirer";
@@ -49,7 +50,8 @@ export interface CodeMigratorRunOption {
 export interface RunScriptsOptions {
     // if `force` is `true`, ignore git clean status
     force?: boolean;
-    scripts: MigrationScript[];
+    // script object or script name list
+    scripts: Array<MigrationScript | string>;
     // glob patterns
     files: string[];
 }
@@ -170,10 +172,16 @@ export class CodeMigrator {
         if (filePathList.length === 0) {
             return Promise.reject(new Error(`No files that match the glob patterns: ${options.files}`));
         }
-
+        // Map to MigrationScript[]
+        const scripts = options.scripts.map(script => {
+            if (typeof script === "string") {
+                return getScriptByName(this.migrationList, script);
+            }
+            return script;
+        });
         return executeWithBin({
             binCreator: this.binCreator,
-            scripts: options.scripts,
+            scripts: scripts,
             filePathList
         });
     }

@@ -74,6 +74,17 @@ export interface SelectScriptArgs {
     nextVersion: string;
 }
 
+/**
+ * ScriptName => MigrationScript
+ */
+export const getScriptByName = (migrationList: MigrationList, scriptName: string): MigrationScript => {
+    const scripts = migrationList.scripts;
+    const script = scripts.find(script => script.name === scriptName);
+    if (!script) {
+        throw new Error(`Not found script: ${scriptName}. You should define the "script" to "scripts".`);
+    }
+    return script;
+};
 export const selectScripts = function selectScripts({ migrationList, currentVersion, nextVersion }: SelectScriptArgs) {
     const semverToRespect = `>${currentVersion} <=${nextVersion}`;
 

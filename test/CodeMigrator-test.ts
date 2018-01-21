@@ -62,22 +62,52 @@ describe("CodeMigrator", () => {
     });
     describe("#runScripts", () => {
         it("should work without error", () => {
+            let isCalled = false;
             const migrationList: MigrationList = require("./fixtures/scripts/migrations.js");
             const codeMigrator = new CodeMigrator({
                 migrationList: migrationList,
                 moduleName: "test",
                 binCreator: () => {
+                    isCalled = true;
                     return {
                         binPath: require.resolve(".bin/jscodeshift"),
                         binArgs: ["--dry"]
                     };
                 }
             });
-            return codeMigrator.runScripts({
-                force: true,
-                scripts: migrationList.scripts,
-                files: [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]
+            return codeMigrator
+                .runScripts({
+                    force: true,
+                    scripts: migrationList.scripts,
+                    files: [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]
+                })
+                .then(() => {
+                    assert.ok(isCalled);
+                });
+        });
+        it("should accept plain script name", () => {
+            let isCalled = false;
+            const migrationList: MigrationList = require("./fixtures/scripts/migrations.js");
+            const codeMigrator = new CodeMigrator({
+                migrationList: migrationList,
+                moduleName: "test",
+                binCreator: () => {
+                    isCalled = true;
+                    return {
+                        binPath: require.resolve(".bin/jscodeshift"),
+                        binArgs: ["--dry"]
+                    };
+                }
             });
+            return codeMigrator
+                .runScripts({
+                    force: true,
+                    scripts: ["use-strict"],
+                    files: [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]
+                })
+                .then(() => {
+                    assert.ok(isCalled);
+                });
         });
     });
 });
