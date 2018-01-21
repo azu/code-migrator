@@ -133,7 +133,10 @@ export class CodeMigrator {
         return inquirer.prompt(questions).then((results: any) => {
             const answers = results as Answers;
             debug("Answers: %O", answers);
-            const files = (defaultValue && defaultValue.files) || answers.files;
+            const files =
+                defaultValue && defaultValue.files && defaultValue.files.length > 0
+                    ? defaultValue.files
+                    : answers.files;
             const currentVersion = (defaultValue && defaultValue.currentVersion) || answers.currentVersion;
             const nextVersion = (defaultValue && defaultValue.nextVersion) || answers.currentVersion;
             debug("%s(currentVersion) → %s(nextVersion), files: %o", currentVersion, nextVersion, files);
