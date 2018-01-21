@@ -118,6 +118,63 @@ migrator
 
 For more details, see [examples/](./examples/)
 
+### How to write unit test?
+
+Code Migrator use [Inquirer.js](https://github.com/SBoudrias/Inquirer.js "Inquirer.js") for building interactive interface.
+It is useful, but it is difficult to test.
+
+You can run Code Migrator with non-interactive mode.
+
+### `run(options: CodeMigratorRunOption)`
+
+If you set all `defaultValue` option, you can run code without interactive prompt. 
+ 
+```ts
+const migrationList: MigrationList = require("./fixtures/scripts/migrations.js");
+const codeMigrator = new CodeMigrator({
+    migrationList: migrationList,
+    moduleName: "test",
+    binCreator: () => {
+        return {
+            binPath: require.resolve(".bin/jscodeshift"),
+            binArgs: ["--dry"]
+        };
+    }
+});
+codeMigrator
+    .run({
+        force: true,
+        defaultValue: {
+            currentVersion: "0.1.0",
+            nextVersion: "3.0.0",
+            files: [path.join(__dirname, "fixtures/scripts/src/**/*.js")]
+        }
+    });
+```
+
+### `runScripts(options: RunScriptsOptions)`
+
+`runScripts` is non-interactive mode by default.
+
+```ts
+const migrationList: MigrationList = require("./fixtures/scripts/migrations.js");
+const codeMigrator = new CodeMigrator({
+    migrationList: migrationList,
+    moduleName: "test",
+    binCreator: () => {
+        return {
+            binPath: require.resolve(".bin/jscodeshift"),
+            binArgs: ["--dry"]
+        };
+    }
+});
+codeMigrator.runScripts({
+    force: true,
+    scripts: migrationList.scripts,
+    files: [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]
+});
+```
+
 ## User
 
 Following migration tools use `code-migrator`.

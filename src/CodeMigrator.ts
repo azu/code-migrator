@@ -35,6 +35,7 @@ export interface CodeMigratorRunOption {
     defaultValue?: {
         currentVersion?: string;
         nextVersion?: string;
+        // glob patterns
         files?: string[];
     };
     // prompt messages
@@ -43,6 +44,14 @@ export interface CodeMigratorRunOption {
         nextVersion?: string;
         files?: string;
     };
+}
+
+export interface RunScriptsOptions {
+    // if `force` is `true`, ignore git clean status
+    force?: boolean;
+    scripts: MigrationScript[];
+    // glob patterns
+    files: string[];
 }
 
 export class CodeMigrator {
@@ -128,6 +137,7 @@ export class CodeMigrator {
                 currentVersion: currentVersion,
                 nextVersion: nextVersion
             });
+
             const filePathList = globby.sync(files);
             if (filePathList.length === 0) {
                 return Promise.reject(new Error(`No files that match the glob patterns: ${files}`));
@@ -143,19 +153,27 @@ export class CodeMigrator {
     /**
      * Run with specified `scripts`.
      */
-    runScripts(scripts: MigrationScript[], filePatterns: string[]) {
-        if (!filePatterns.length) {
+    runScripts(options: RunScriptsOptions) {
+        const { ok, errorMessage } = checkGitStatus(options.force);
+        if (ok && errorMessage) {
+            console.warn(errorMessage);
+            // continue
+        } else if (!ok) {
+            return Promise.reject(new Error(errorMessage));
+        }
+
+        if (!options.files.length) {
             return Promise.reject(new Error("No input glob patterns."));
         }
 
-        const filePathList = globby.sync(filePatterns);
+        const filePathList = globby.sync(options.files);
         if (filePathList.length === 0) {
-            return Promise.reject(new Error(`No files that match the glob patterns: ${filePatterns}`));
+            return Promise.reject(new Error(`No files that match the glob patterns: ${options.files}`));
         }
 
         return executeWithBin({
             binCreator: this.binCreator,
-            scripts: scripts,
+            scripts: options.scripts,
             filePathList
         });
     }

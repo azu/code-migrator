@@ -20,6 +20,7 @@ describe("CodeMigrator", () => {
             });
             return codeMigrator
                 .run({
+                    force: true,
                     defaultValue: {
                         currentVersion: "0.1.0",
                         nextVersion: "3.0.0",
@@ -46,6 +47,7 @@ describe("CodeMigrator", () => {
             });
             return codeMigrator
                 .run({
+                    force: true,
                     defaultValue: {
                         // no match range
                         currentVersion: "2.1.0",
@@ -71,9 +73,11 @@ describe("CodeMigrator", () => {
                     };
                 }
             });
-            return codeMigrator.runScripts(migrationList.scripts, [
-                path.join(__dirname, "/fixtures/scripts/src/**/*.js")
-            ]);
+            return codeMigrator.runScripts({
+                force: true,
+                scripts: migrationList.scripts,
+                files: [path.join(__dirname, "/fixtures/scripts/src/**/*.js")]
+            });
         });
     });
 });
