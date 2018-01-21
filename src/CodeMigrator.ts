@@ -23,10 +23,20 @@ export interface CodeMigratorArgs {
 export interface CodeMigratorRunOption {
     // if `force` is `true`, ignore git clean status
     force?: boolean;
-    // specify target file glob patterns
-    filePatterns: string[];
-    // default file glob placeholder for prompt
-    filePatternsPlaceholder?: string;
+    // prompt placeholder value
+    placeHolder?: {
+        currentVersion?: string;
+        nextVersion?: string;
+        files?: string;
+    };
+    // prompt default value
+    // Note: if all `defaultValue` is set, run without interactive mode.
+    // You can use it for unit testing.
+    defaultValue?: {
+        currentVersion?: string;
+        nextVersion?: string;
+        files?: string[];
+    };
     // prompt messages
     message?: {
         currentVersion?: string;
@@ -60,33 +70,37 @@ export class CodeMigrator {
         }
         const sortedVersions = sortByVersion(this.migrationList.versions);
         const versions = createPromptVersionParameters(sortedVersions);
-        const defaultFiles = options.filePatternsPlaceholder || "src/**/*.js";
-        let moduleName = this.moduleName;
+        const moduleName = this.moduleName;
         const targetModuleVersion = getPackageVersion(moduleName);
+        // options
+        const message = options.message;
+        const defaultValue = options.defaultValue;
+        const placeHolder = options.placeHolder;
+        const placeHolderFiles = (placeHolder && placeHolder.files) || "src/**/*.js";
         const questions: Question[] = [
             {
                 type: "list",
                 name: "currentVersion",
-                default: (options.message && options.message.currentVersion) || targetModuleVersion,
-                message: `What version of ${moduleName} are you currently using?`,
+                default: (placeHolder && placeHolder.currentVersion) || targetModuleVersion,
+                when: !(defaultValue && defaultValue.currentVersion),
+                message:
+                    (message && message.currentVersion) || `What version of ${moduleName} are you currently using?`,
                 choices: versions.slice(0, -1)
             },
             {
                 type: "list",
                 name: "nextVersion",
-                message:
-                    (options.message && options.message.nextVersion) ||
-                    `What version of ${moduleName} are you moving to?`,
+                default: placeHolder && placeHolder.nextVersion,
+                when: !(defaultValue && defaultValue.nextVersion),
+                message: (message && message.nextVersion) || `What version of ${moduleName} are you moving to?`,
                 choices: versions.slice(1)
             },
             {
                 type: "input",
                 name: "files",
-                message:
-                    (options.message && options.message.files) ||
-                    "On which files should the migration scripts be applied?",
-                default: defaultFiles,
-                when: !options.filePatterns.length,
+                message: (message && message.files) || "On which files should the migration scripts be applied?",
+                default: placeHolderFiles,
+                when: !(defaultValue && defaultValue.files),
                 filter: (files: string) => {
                     return files.trim();
                 }
@@ -101,15 +115,18 @@ export class CodeMigrator {
         return inquirer.prompt(questions).then((results: any) => {
             const answers = results as Answers;
             debug("Answers: %O", answers);
-            const files = answers.files || options.filePatterns;
+            const files = (defaultValue && defaultValue.files) || answers.files;
+            const currentVersion = (defaultValue && defaultValue.currentVersion) || answers.currentVersion;
+            const nextVersion = (defaultValue && defaultValue.nextVersion) || answers.currentVersion;
+            debug("%s(currentVersion) → %s(nextVersion), files: %o", currentVersion, nextVersion, files);
             if (!files.length) {
                 return Promise.reject(new Error("No input glob patterns."));
             }
 
             const scripts = selectScripts({
                 migrationList: this.migrationList,
-                currentVersion: answers.currentVersion,
-                nextVersion: answers.nextVersion
+                currentVersion: currentVersion,
+                nextVersion: nextVersion
             });
             const filePathList = globby.sync(files);
             if (filePathList.length === 0) {
