@@ -56,6 +56,13 @@ export interface RunScriptsOptions {
     files: string[];
 }
 
+export interface CodeMigratorResults {
+    // target file path list
+    filePathList: string[];
+    // apply migration scripts list
+    scripts: MigrationScript[];
+}
+
 export class CodeMigrator {
     private moduleName: string;
     private migrationList: MigrationList;
@@ -71,7 +78,7 @@ export class CodeMigrator {
     /**
      * Run with interactive mode
      */
-    run(options: CodeMigratorRunOption) {
+    run(options: CodeMigratorRunOption): Promise<CodeMigratorResults> {
         const { ok, errorMessage } = checkGitStatus(options.force);
         if (ok && errorMessage) {
             console.warn(errorMessage);
@@ -148,6 +155,11 @@ export class CodeMigrator {
                 binCreator: this.binCreator,
                 scripts: scripts,
                 filePathList
+            }).then(() => {
+                return {
+                    scripts: scripts,
+                    filePathList
+                };
             });
         });
     }
@@ -155,7 +167,7 @@ export class CodeMigrator {
     /**
      * Run with specified `scripts`.
      */
-    runScripts(options: RunScriptsOptions) {
+    runScripts(options: RunScriptsOptions): Promise<CodeMigratorResults> {
         const { ok, errorMessage } = checkGitStatus(options.force);
         if (ok && errorMessage) {
             console.warn(errorMessage);
@@ -183,6 +195,11 @@ export class CodeMigrator {
             binCreator: this.binCreator,
             scripts: scripts,
             filePathList
+        }).then(() => {
+            return {
+                scripts: scripts,
+                filePathList
+            };
         });
     }
 }
