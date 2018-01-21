@@ -2,7 +2,7 @@ import execa = require("execa");
 import pAll = require("p-all");
 import { MigrationScript } from "./MigrationList";
 
-const debug = require("debug")("code-shifter");
+const debug = require("debug")("code-migrator");
 export type BinCreator = (
     args: { script: MigrationScript; filePathList: string[] }
 ) => {

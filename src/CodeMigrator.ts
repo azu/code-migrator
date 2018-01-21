@@ -13,7 +13,7 @@ import { BinCreator, executeWithBin } from "./run-scripts";
 import globby = require("globby");
 import { checkMigrationList } from "./check-migration-list";
 
-const debug = require("debug")("code-shifter");
+const debug = require("debug")("code-migrator");
 
 export interface CodeMigratorArgs {
     moduleName: string;
@@ -138,7 +138,7 @@ export class CodeMigrator {
                     ? defaultValue.files
                     : answers.files;
             const currentVersion = (defaultValue && defaultValue.currentVersion) || answers.currentVersion;
-            const nextVersion = (defaultValue && defaultValue.nextVersion) || answers.currentVersion;
+            const nextVersion = (defaultValue && defaultValue.nextVersion) || answers.nextVersion;
             debug("%s(currentVersion) → %s(nextVersion), files: %o", currentVersion, nextVersion, files);
             if (!files.length) {
                 return Promise.reject(new Error("No input glob patterns."));
