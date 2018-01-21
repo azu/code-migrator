@@ -212,7 +212,7 @@ For bugs and feature requests, [please create an issue](https://github.com/azu/c
 
 MIT © azu
 
-## Acknowledge
+## Acknowledgment
 
 This library is based on `ava-codemods`.
 
