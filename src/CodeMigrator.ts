@@ -111,7 +111,7 @@ export class CodeMigrator {
                 name: "files",
                 message: (message && message.files) || "On which files should the migration scripts be applied?",
                 default: placeHolderFiles,
-                when: !(defaultValue && defaultValue.files),
+                when: !(defaultValue && defaultValue.files && defaultValue.files.length > 0),
                 filter: (files: string) => {
                     return files.trim();
                 }
