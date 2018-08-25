@@ -31,9 +31,8 @@ export const executeWithBin = (args: runWithBinOptions): Promise<void> => {
             });
             const binPath = binResult.binPath;
             const binArgs = binResult.binArgs || [];
-            const args = binArgs.concat(["-t", script.filePath]).concat(filePathList);
-            debug(`${binPath} %o`, args);
-            return execa(binPath, args, {
+            debug(`${binPath} %o`, binArgs);
+            return execa(binPath, binArgs, {
                 stdio: "inherit",
                 stripEof: false
             });
