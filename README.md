@@ -95,12 +95,12 @@ const cli = meow(
 const migrator = new CodeMigrator({
     moduleName: "test-module", // <= target npm module name if needed
     migrationList: require("../migrations"), // load migration list
-    binCreator: () => {
+    binCreator: ({ script, filePathList }) => {
         // migration script is executed by jscodeshift
         const binArgs = cli.flags.dryRun ? ["--dry"] : [];
         return {
             binPath: require.resolve(".bin/jscodeshift"),
-            binArgs
+            binArgs: binArgs.concat(["-t", script.filePath]).concat(filePathList)
         };
     }
 });
@@ -134,10 +134,10 @@ const migrationList: MigrationList = require("./fixtures/scripts/migrations.js")
 const codeMigrator = new CodeMigrator({
     migrationList: migrationList,
     moduleName: "test",
-    binCreator: () => {
+    binCreator: ({ script, filePathList }) => {
         return {
             binPath: require.resolve(".bin/jscodeshift"),
-            binArgs: ["--dry"]
+            binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
         };
     }
 });
@@ -161,10 +161,10 @@ const migrationList: MigrationList = require("./fixtures/scripts/migrations.js")
 const codeMigrator = new CodeMigrator({
     migrationList: migrationList,
     moduleName: "test",
-    binCreator: () => {
+    binCreator: ({ script, filePathList }) => {
         return {
             binPath: require.resolve(".bin/jscodeshift"),
-            binArgs: ["--dry"]
+            binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
         };
     }
 });

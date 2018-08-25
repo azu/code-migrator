@@ -10,11 +10,11 @@ describe("CodeMigrator", () => {
             const codeMigrator = new CodeMigrator({
                 migrationList: migrationList,
                 moduleName: "test",
-                binCreator: () => {
+                binCreator: ({ script, filePathList }) => {
                     isCalledBinCreator = true;
                     return {
                         binPath: require.resolve(".bin/jscodeshift"),
-                        binArgs: ["--dry"]
+                        binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
                     };
                 }
             });
@@ -37,11 +37,11 @@ describe("CodeMigrator", () => {
             const codeMigrator = new CodeMigrator({
                 migrationList: migrationList,
                 moduleName: "test",
-                binCreator: () => {
+                binCreator: ({ script, filePathList }) => {
                     isCalledBinCreator = true;
                     return {
                         binPath: require.resolve(".bin/jscodeshift"),
-                        binArgs: ["--dry"]
+                        binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
                     };
                 }
             });
@@ -67,11 +67,11 @@ describe("CodeMigrator", () => {
             const codeMigrator = new CodeMigrator({
                 migrationList: migrationList,
                 moduleName: "test",
-                binCreator: () => {
+                binCreator: ({ script, filePathList }) => {
                     isCalled = true;
                     return {
                         binPath: require.resolve(".bin/jscodeshift"),
-                        binArgs: ["--dry"]
+                        binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
                     };
                 }
             });
@@ -91,11 +91,11 @@ describe("CodeMigrator", () => {
             const codeMigrator = new CodeMigrator({
                 migrationList: migrationList,
                 moduleName: "test",
-                binCreator: () => {
+                binCreator: ({ script, filePathList }) => {
                     isCalled = true;
                     return {
                         binPath: require.resolve(".bin/jscodeshift"),
-                        binArgs: ["--dry"]
+                        binArgs: ["--dry", "-t", script.filePath].concat(filePathList)
                     };
                 }
             });
